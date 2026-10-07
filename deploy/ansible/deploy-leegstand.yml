@@ -1,0 +1,37 @@
+---
+# Renders /etc/leegstand/env from vault + vars and installs the systemd units.
+# Run from this directory on runner-host:
+#   ansible-playbook -i inventory.yml deploy-leegstand.yml --ask-vault-pass
+- name: Deploy leegstand-monitor runtime config
+  hosts: leegstand
+  become: true
+  vars:
+    leegstand_src: "{{ playbook_dir }}/.."     # deploy/ -> service + timer live here
+  tasks:
+    - name: Config directory
+      file: { path: /etc/leegstand, state: directory, owner: ansible, group: ansible, mode: "0750" }
+
+    - name: Render env file (secrets, no_log)
+      template:
+        src: templates/env.j2
+        dest: /etc/leegstand/env
+        owner: ansible
+        group: ansible
+        mode: "0600"
+      no_log: true
+      notify: run timer reload
+
+    - name: systemd units
+      copy:
+        src: "{{ leegstand_src }}/{{ item }}"
+        dest: "/etc/systemd/system/{{ item }}"
+        mode: "0644"
+      loop: [leegstand-monitor.service, leegstand-monitor.timer]
+      notify: run timer reload
+
+    - name: Timer enabled
+      systemd: { name: leegstand-monitor.timer, enabled: true, state: started, daemon_reload: true }
+
+  handlers:
+    - name: run timer reload
+      systemd: { daemon_reload: true }

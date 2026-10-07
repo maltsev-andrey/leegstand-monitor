@@ -1,0 +1,4 @@
+leegstand:
+  hosts:
+    runner-host:
+      ansible_connection: local

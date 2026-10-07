@@ -1,0 +1,15 @@
+[Unit]
+Description=Leegstandbelasting monitor (NL sources -> EN summary -> Telegram)
+Wants=network-online.target
+After=network-online.target
+
+[Service]
+Type=oneshot
+User=ansible
+WorkingDirectory=/opt/leegstand
+EnvironmentFile=/etc/leegstand/env
+ExecStart=/opt/leegstand/venv/bin/python -m leegstand.run
+TimeoutStartSec=1800
+# RHEL8 ships systemd 239: Restart= is not allowed with Type=oneshot (needs >=244).
+# Recovery is covered by the timer's Persistent=true plus the unreported queue in Postgres:
+# a failed send is retried automatically on the next run.

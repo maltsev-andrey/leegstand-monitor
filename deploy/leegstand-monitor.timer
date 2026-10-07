@@ -1,0 +1,12 @@
+[Unit]
+Description=Daily Leegstandbelasting monitor run
+
+[Timer]
+# 07:20: after the night GPU window (scoring 02:30, rag-indexer 03:30, tailoring 04:00)
+# and before the 08:00 IT digest, so both qwen2.5-7b workloads never overlap on the P100.
+OnCalendar=*-*-* 07:20:00
+Persistent=true
+RandomizedDelaySec=120
+
+[Install]
+WantedBy=timers.target

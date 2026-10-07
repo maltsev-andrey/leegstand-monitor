@@ -1,0 +1,11 @@
+# Non-secret settings. Secrets live in vault.yml next to this file (ansible-vault).
+leegstand_litellm_url: "http://GPU_HOST:30900"
+leegstand_llm_model: "qwen2.5-7b"
+leegstand_pg_host: "DB_HOST"
+leegstand_pg_db: "leegstand"
+leegstand_pg_user: "leegstand"
+leegstand_cvdr_index: "overheidrg.body"
+leegstand_max_items: 25
+leegstand_lookback_days: 45
+leegstand_feeds_extra: ""        # "Name=https://...;Name2=https://..."
+leegstand_feeds_disable: ""      # "Stadszaken,AD.nl"

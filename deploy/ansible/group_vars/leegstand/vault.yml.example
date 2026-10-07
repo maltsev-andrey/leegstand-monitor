@@ -1,0 +1,6 @@
+# Create the real file with:  ansible-vault create group_vars/leegstand/vault.yml
+# The encrypted vault.yml IS committed (that is what vault is for); this .example documents the keys.
+vault_leegstand_db_password: "CHANGE_ME"
+vault_leegstand_litellm_key: "sk-CHANGE_ME"
+vault_leegstand_tg_bot_token: "CHANGE_ME"
+vault_leegstand_tg_chat_id: "CHANGE_ME"
